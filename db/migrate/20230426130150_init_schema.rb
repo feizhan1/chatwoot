@@ -1,7 +1,6 @@
 class InitSchema < ActiveRecord::Migration[6.1]
   def up
     # These are extensions that must be enabled in order to support this database
-    enable_extension "pg_stat_statements"
     enable_extension "pg_trgm"
     enable_extension "pgcrypto"
     enable_extension "plpgsql"
