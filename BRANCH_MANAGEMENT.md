@@ -192,6 +192,16 @@ git push origin master --no-verify
 # 或者修改 bin/validate_push 文件中的限制
 ```
 
+#### Pre-commit 钩子错误
+```bash
+# 如果遇到 lint-staged 或其他 pre-commit 错误
+# 使用 --no-verify 跳过 pre-commit 钩子
+git commit -m "your message" --no-verify
+
+# 推送时也可以跳过 pre-push 钩子
+git push origin branch-name --no-verify
+```
+
 #### 合并冲突
 ```bash
 # 在 rebase 过程中解决冲突
