@@ -75,8 +75,8 @@ cd ~/chatwoot-production
 **方法1：使用 scp 命令（从本地传输到服务器）**
 ```bash
 # 在本地 Mac 执行，将文件传输到 Ubuntu 服务器
-scp /Users/feizhan/code/zhen_zhi/chatwoot/docker-compose.production.yaml docker39@192.168.1.39:~/chatwoot-production/
-scp /Users/feizhan/code/zhen_zhi/chatwoot/.env.production docker39@192.168.1.39:~/chatwoot-production/
+scp /Users/feizhan/code/zhen_zhi/chatwoot/docker-compose.production.yaml docker39@115.175.225.110:~/chatwoot-production/
+scp /Users/feizhan/code/zhen_zhi/chatwoot/.env.production docker39@115.175.225.110:~/chatwoot-production/
 ```
 
 **方法2：手动创建文件（在 Ubuntu 服务器上）**
@@ -147,7 +147,7 @@ docker-compose -f docker-compose.production.yaml exec rails bundle exec rails c
 
 # 在 Rails 控制台中执行:
 account = Account.create!(name: "Tvcmall")
-user = User.create!(name: "Admin", email: "admin@tvcmall.com", password: "admin123456", password_confirmation: "admin123456")
+user = User.create!(name: "Admin", email: "1529212832@qq.com", password: "admin123456Zf/", password_confirmation: "admin123456Zf/")
 AccountUser.create!(account: account, user: user, role: "administrator")
 exit
 ```
@@ -203,7 +203,7 @@ sudo systemctl start chatwoot
 ## 🌐 第六步：访问和测试
 
 ### 6.1 访问应用
-打开浏览器访问：`http://192.168.1.39:3000`
+打开浏览器访问：`http://115.175.225.110:3000`
 
 ### 6.2 管理员登录
 - 邮箱：`admin@tvcmall.com`
@@ -324,4 +324,4 @@ docker-compose -f docker-compose.production.yaml logs rails
 
 **部署完成！** 🎉
 
-您的 Chatwoot 生产环境现在应该在 `http://192.168.1.39:3000` 正常运行了。
+您的 Chatwoot 生产环境现在应该在 `http://115.175.225.110:30000` 正常运行了。
