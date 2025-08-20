@@ -13,7 +13,7 @@ services:
       - postgres
       - redis
     ports:
-      - '127.0.0.1:30000:3000'  # 只监听本地，不对外暴露
+      - '0.0.0.0:30000:3000'  # 对外暴露，便于调试
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
