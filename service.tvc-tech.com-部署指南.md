@@ -1,9 +1,9 @@
-# service.tvc-tech.com Chatwoot 域名部署指南
+# service.sjlpj.cn Chatwoot 域名部署指南
 
 ## 📋 部署概况
 
 - **当前访问**: http://115.175.225.110:30000
-- **目标域名**: https://service.tvc-tech.com
+- **目标域名**: https://service.sjlpj.cn
 - **部署方式**: Docker + Nginx 反向代理 + SSL
 
 ## 🚀 快速部署（推荐）
@@ -12,7 +12,7 @@
 
 ```bash
 # 1. 在服务器 115.175.225.110 上执行
-sudo ./scripts/deploy-domain.sh service.tvc-tech.com admin@tvc-tech.com
+sudo ./scripts/deploy-domain.sh service.sjlpj.cn admin@tvc-tech.com
 
 # 脚本会自动完成所有配置
 ```
@@ -35,7 +35,7 @@ TTL: 600
 
 **验证解析是否生效**：
 ```bash
-dig service.tvc-tech.com
+dig service.sjlpj.cn
 # 应该返回 115.175.225.110
 ```
 
@@ -61,7 +61,7 @@ sudo apt install -y certbot python3-certbot-nginx
 
 ```bash
 # 使用专用的域名配置启动服务
-docker-compose -f docker-compose.domain.yaml --env-file .env.service.tvc-tech.com up -d
+docker-compose -f docker-compose.domain.yaml --env-file .env.service.sjlpj.cn up -d
 
 # 等待服务启动
 sleep 30
@@ -75,7 +75,7 @@ sudo certbot --nginx \
     --non-interactive \
     --agree-tos \
     --email admin@tvc-tech.com \
-    --domains service.tvc-tech.com \
+    --domains service.sjlpj.cn \
     --redirect
 ```
 
@@ -93,7 +93,7 @@ sudo chown -R $(whoami):$(whoami) docker/letsencrypt
 ### 步骤 7: 更新 nginx 配置
 
 ```bash
-# nginx 配置文件已更新为 service.tvc-tech.com
+# nginx 配置文件已更新为 service.sjlpj.cn
 # 启用 SSL 配置行
 sed -i 's/# ssl_certificate/ssl_certificate/g' docker/nginx.conf
 ```
@@ -102,10 +102,10 @@ sed -i 's/# ssl_certificate/ssl_certificate/g' docker/nginx.conf
 
 ```bash
 # 重启所有服务以应用新配置
-docker-compose -f docker-compose.domain.yaml --env-file .env.service.tvc-tech.com restart
+docker-compose -f docker-compose.domain.yaml --env-file .env.service.sjlpj.cn restart
 
 # 检查服务状态
-docker-compose -f docker-compose.domain.yaml --env-file .env.service.tvc-tech.com ps
+docker-compose -f docker-compose.domain.yaml --env-file .env.service.sjlpj.cn ps
 ```
 
 ### 步骤 9: 设置自动续期
@@ -121,10 +121,10 @@ echo "0 12 * * * /usr/bin/certbot renew --quiet && docker-compose -f $(pwd)/dock
 
 ```bash
 # 检查 HTTPS 访问
-curl -I https://service.tvc-tech.com
+curl -I https://service.sjlpj.cn
 
 # 检查 HTTP 重定向
-curl -I http://service.tvc-tech.com
+curl -I http://service.sjlpj.cn
 ```
 
 **期望结果**:
@@ -135,19 +135,19 @@ curl -I http://service.tvc-tech.com
 
 ```bash
 # 查看所有容器状态
-docker-compose -f docker-compose.domain.yaml --env-file .env.service.tvc-tech.com ps
+docker-compose -f docker-compose.domain.yaml --env-file .env.service.sjlpj.cn ps
 
 # 查看服务日志
-docker-compose -f docker-compose.domain.yaml --env-file .env.service.tvc-tech.com logs -f nginx
+docker-compose -f docker-compose.domain.yaml --env-file .env.service.sjlpj.cn logs -f nginx
 ```
 
 ## 🗂️ 配置文件说明
 
 ### 主要配置文件
 
-1. **`.env.service.tvc-tech.com`** - 域名专用环境配置
-   - `FRONTEND_URL=https://service.tvc-tech.com`
-   - `HELPCENTER_URL=https://service.tvc-tech.com`
+1. **`.env.service.sjlpj.cn`** - 域名专用环境配置
+   - `FRONTEND_URL=https://service.sjlpj.cn`
+   - `HELPCENTER_URL=https://service.sjlpj.cn`
    - `FORCE_SSL=true`
 
 2. **`docker-compose.domain.yaml`** - 包含 nginx 的容器编排
@@ -155,7 +155,7 @@ docker-compose -f docker-compose.domain.yaml --env-file .env.service.tvc-tech.co
    - rails 容器只监听本地端口
 
 3. **`docker/nginx.conf`** - nginx 反向代理配置
-   - 已配置 service.tvc-tech.com 域名
+   - 已配置 service.sjlpj.cn 域名
    - SSL 配置和安全headers
 
 ## 🔧 服务管理命令
@@ -164,33 +164,33 @@ docker-compose -f docker-compose.domain.yaml --env-file .env.service.tvc-tech.co
 
 ```bash
 # 查看服务状态
-docker-compose -f docker-compose.domain.yaml --env-file .env.service.tvc-tech.com ps
+docker-compose -f docker-compose.domain.yaml --env-file .env.service.sjlpj.cn ps
 
 # 查看日志
-docker-compose -f docker-compose.domain.yaml --env-file .env.service.tvc-tech.com logs -f
+docker-compose -f docker-compose.domain.yaml --env-file .env.service.sjlpj.cn logs -f
 
 # 重启服务
-docker-compose -f docker-compose.domain.yaml --env-file .env.service.tvc-tech.com restart
+docker-compose -f docker-compose.domain.yaml --env-file .env.service.sjlpj.cn restart
 
 # 停止服务
-docker-compose -f docker-compose.domain.yaml --env-file .env.service.tvc-tech.com down
+docker-compose -f docker-compose.domain.yaml --env-file .env.service.sjlpj.cn down
 
 # 更新镜像并重启
-docker-compose -f docker-compose.domain.yaml --env-file .env.service.tvc-tech.com pull
-docker-compose -f docker-compose.domain.yaml --env-file .env.service.tvc-tech.com up -d
+docker-compose -f docker-compose.domain.yaml --env-file .env.service.sjlpj.cn pull
+docker-compose -f docker-compose.domain.yaml --env-file .env.service.sjlpj.cn up -d
 ```
 
 ### 特定服务操作
 
 ```bash
 # 重启 nginx
-docker-compose -f docker-compose.domain.yaml --env-file .env.service.tvc-tech.com restart nginx
+docker-compose -f docker-compose.domain.yaml --env-file .env.service.sjlpj.cn restart nginx
 
 # 查看 nginx 日志
-docker-compose -f docker-compose.domain.yaml --env-file .env.service.tvc-tech.com logs -f nginx
+docker-compose -f docker-compose.domain.yaml --env-file .env.service.sjlpj.cn logs -f nginx
 
 # 重启 chatwoot 应用
-docker-compose -f docker-compose.domain.yaml --env-file .env.service.tvc-tech.com restart rails
+docker-compose -f docker-compose.domain.yaml --env-file .env.service.sjlpj.cn restart rails
 ```
 
 ## 🔒 SSL 证书管理
@@ -223,7 +223,7 @@ docker-compose -f docker-compose.domain.yaml restart nginx
 
 ```bash
 # 检查域名解析
-dig service.tvc-tech.com
+dig service.sjlpj.cn
 
 # 检查防火墙
 sudo ufw status
@@ -242,21 +242,21 @@ sudo netstat -tlnp | grep :443
 sudo certbot certificates
 
 # 重新申请证书
-sudo certbot delete --cert-name service.tvc-tech.com
-sudo certbot --nginx -d service.tvc-tech.com
+sudo certbot delete --cert-name service.sjlpj.cn
+sudo certbot --nginx -d service.sjlpj.cn
 ```
 
 #### 3. 服务启动失败
 
 ```bash
 # 查看详细错误日志
-docker-compose -f docker-compose.domain.yaml --env-file .env.service.tvc-tech.com logs
+docker-compose -f docker-compose.domain.yaml --env-file .env.service.sjlpj.cn logs
 
 # 检查配置文件语法
 nginx -t -c docker/nginx.conf
 
 # 检查环境变量
-cat .env.service.tvc-tech.com
+cat .env.service.sjlpj.cn
 ```
 
 ## 🔄 回滚到 IP 访问
@@ -265,7 +265,7 @@ cat .env.service.tvc-tech.com
 
 ```bash
 # 停止域名服务
-docker-compose -f docker-compose.domain.yaml --env-file .env.service.tvc-tech.com down
+docker-compose -f docker-compose.domain.yaml --env-file .env.service.sjlpj.cn down
 
 # 启动原始 IP 服务
 docker-compose -f docker-compose.production.yaml up -d
@@ -277,7 +277,7 @@ docker-compose -f docker-compose.production.yaml up -d
 
 - [ ] 域名解析已配置并生效
 - [ ] SSL 证书申请成功
-- [ ] https://service.tvc-tech.com 可以正常访问
+- [ ] https://service.sjlpj.cn 可以正常访问
 - [ ] HTTP 自动重定向到 HTTPS
 - [ ] 所有服务容器运行正常
 - [ ] SSL 证书自动续期已设置
@@ -285,7 +285,7 @@ docker-compose -f docker-compose.production.yaml up -d
 
 ## 🌟 部署后效果
 
-✅ **访问地址**: https://service.tvc-tech.com
+✅ **访问地址**: https://service.sjlpj.cn
 ✅ **自动 HTTPS**: HTTP 自动跳转到 HTTPS
 ✅ **SSL 安全**: Let's Encrypt 免费证书
 ✅ **自动续期**: 证书自动续期，无需手动维护
@@ -293,4 +293,4 @@ docker-compose -f docker-compose.production.yaml up -d
 
 ---
 
-部署完成后，您的 Chatwoot 系统将通过 `https://service.tvc-tech.com` 提供安全、稳定的服务！
+部署完成后，您的 Chatwoot 系统将通过 `https://service.sjlpj.cn` 提供安全、稳定的服务！
