@@ -1,75 +1,75 @@
-# Chatwoot Development Guidelines
+# Chatwoot 开发指南
 
-## Build / Test / Lint
+## 构建 / 测试 / 代码检查
 
-- **Setup**: `bundle install && pnpm install`
-- **Run Dev**: `pnpm dev` or `overmind start -f ./Procfile.dev`
-- **Lint JS/Vue**: `pnpm eslint` / `pnpm eslint:fix`
-- **Lint Ruby**: `bundle exec rubocop -a`
-- **Test JS**: `pnpm test` or `pnpm test:watch`
-- **Test Ruby**: `bundle exec rspec spec/path/to/file_spec.rb`
-- **Single Test**: `bundle exec rspec spec/path/to/file_spec.rb:LINE_NUMBER`
-- **Run Project**: `overmind start -f Procfile.dev`
+- **初始化**: `bundle install && pnpm install`
+- **运行开发环境**: `pnpm dev` 或 `overmind start -f ./Procfile.dev`
+- **JS/Vue 代码检查**: `pnpm eslint` / `pnpm eslint:fix`
+- **Ruby 代码检查**: `bundle exec rubocop -a`
+- **JS 测试**: `pnpm test` 或 `pnpm test:watch`
+- **Ruby 测试**: `bundle exec rspec spec/path/to/file_spec.rb`
+- **单个测试**: `bundle exec rspec spec/path/to/file_spec.rb:LINE_NUMBER`
+- **运行项目**: `overmind start -f Procfile.dev`
 
-## Code Style
+## 代码风格
 
-- **Ruby**: Follow RuboCop rules (150 character max line length)
-- **Vue/JS**: Use ESLint (Airbnb base + Vue 3 recommended)
-- **Vue Components**: Use PascalCase
-- **Events**: Use camelCase
-- **I18n**: No bare strings in templates; use i18n
-- **Error Handling**: Use custom exceptions (`lib/custom_exceptions/`)
-- **Models**: Validate presence/uniqueness, add proper indexes
-- **Type Safety**: Use PropTypes in Vue, strong params in Rails
-- **Naming**: Use clear, descriptive names with consistent casing
-- **Vue API**: Always use Composition API with `<script setup>` at the top
+- **Ruby**: 遵循 RuboCop 规则（最大行长度 150 字符）
+- **Vue/JS**: 使用 ESLint（Airbnb base + Vue 3 推荐）
+- **Vue 组件**: 使用 PascalCase
+- **事件**: 使用 camelCase
+- **国际化**: 模板中不使用裸字符串；使用 i18n
+- **错误处理**: 使用自定义异常（`lib/custom_exceptions/`）
+- **模型**: 验证存在性/唯一性，添加适当的索引
+- **类型安全**: Vue 中使用 PropTypes，Rails 中使用强参数
+- **命名**: 使用清晰、描述性的名称，保持一致的命名规范
+- **Vue API**: 始终使用组合式 API，在顶部使用 `<script setup>`
 
-## Styling
+## 样式
 
-- **Tailwind Only**:  
-  - Do not write custom CSS  
-  - Do not use scoped CSS  
-  - Do not use inline styles  
-  - Always use Tailwind utility classes  
-- **Colors**: Refer to `tailwind.config.js` for color definitions
+- **仅使用 Tailwind**:  
+  - 不要写自定义 CSS  
+  - 不要使用作用域 CSS  
+  - 不要使用内联样式  
+  - 始终使用 Tailwind 工具类  
+- **颜色**: 参考 `tailwind.config.js` 中的颜色定义
 
-## General Guidelines
+## 通用指南
 
-- MVP focus: Least code change, happy-path only
-- No unnecessary defensive programming
-- Break down complex tasks into small, testable units
-- Iterate after confirmation
-- Avoid writing specs unless explicitly asked
-- Remove dead/unreachable/unused code
-- Don’t write multiple versions or backups for the same logic — pick the best approach and implement it
-- Don't reference Claude in commit messages
+- 专注于 MVP：最少的代码变更，仅考虑正常路径
+- 避免不必要的防御性编程
+- 将复杂任务分解为小的、可测试的单元
+- 确认后再迭代
+- 除非明确要求，否则避免编写测试规范
+- 删除死代码/不可达代码/未使用代码
+- 不要为同一逻辑编写多个版本或备份 — 选择最佳方法并实现
+- 不要在提交信息中引用 Claude
 
-## Project-Specific
+## 项目特定
 
-- **Translations**:
-  - Only update `en.yml` and `en.json`
-  - Other languages are handled by the community
-  - Backend i18n → `en.yml`, Frontend i18n → `en.json`
-- **Frontend**:
-  - Use `components-next/` for message bubbles (the rest is being deprecated)
+- **翻译**:
+  - 仅更新 `en.yml` 和 `en.json`
+  - 其他语言由社区处理
+  - 后端国际化 → `en.yml`，前端国际化 → `en.json`
+- **前端**:
+  - 对消息气泡使用 `components-next/`（其余部分正在弃用）
 
-## Ruby Best Practices
+## Ruby 最佳实践
 
-- Use compact `module/class` definitions; avoid nested styles
+- 使用紧凑的 `module/class` 定义；避免嵌套样式
 
-## Enterprise Edition Notes
+## 企业版说明
 
-- Chatwoot has an Enterprise overlay under `enterprise/` that extends/overrides OSS code.
-- When you add or modify core functionality, always check for corresponding files in `enterprise/` and keep behavior compatible.
-- Follow the Enterprise development practices documented here:
+- Chatwoot 在 `enterprise/` 下有一个企业版覆盖层，用于扩展/覆盖 OSS 代码。
+- 当您添加或修改核心功能时，始终检查 `enterprise/` 中的相应文件，保持行为兼容。
+- 遵循此处记录的企业版开发实践：
   - https://chatwoot.help/hc/handbook/articles/developing-enterprise-edition-features-38
 
-Practical checklist for any change impacting core logic or public APIs
-- Search for related files in both trees before editing (e.g., `rg -n "FooService|ControllerName|ModelName" app enterprise`).
-- If adding new endpoints, services, or models, consider whether Enterprise needs:
-  - An override (e.g., `enterprise/app/...`), or
-  - An extension point (e.g., `prepend_mod_with`, hooks, configuration) to avoid hard forks.
-- Avoid hardcoding instance- or plan-specific behavior in OSS; prefer configuration, feature flags, or extension points consumed by Enterprise.
-- Keep request/response contracts stable across OSS and Enterprise; update both sets of routes/controllers when introducing new APIs.
-- When renaming/moving shared code, mirror the change in `enterprise/` to prevent drift.
-- Tests: Add Enterprise-specific specs under `spec/enterprise`, mirroring OSS spec layout where applicable.
+影响核心逻辑或公共 API 的任何变更的实用检查清单
+- 编辑前在两个目录树中搜索相关文件（例如，`rg -n "FooService|ControllerName|ModelName" app enterprise`）。
+- 如果添加新的端点、服务或模型，考虑企业版是否需要：
+  - 覆盖（例如，`enterprise/app/...`），或
+  - 扩展点（例如，`prepend_mod_with`、钩子、配置）以避免硬分叉。
+- 避免在 OSS 中硬编码实例或计划特定的行为；优先使用企业版使用的配置、功能标志或扩展点。
+- 保持 OSS 和企业版之间的请求/响应契约稳定；引入新 API 时更新两套路由/控制器。
+- 重命名/移动共享代码时，在 `enterprise/` 中镜像更改以防止漂移。
+- 测试：在 `spec/enterprise` 下添加企业版特定的测试规范，在适用的地方镜像 OSS 测试规范布局。
