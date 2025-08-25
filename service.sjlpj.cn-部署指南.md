@@ -12,7 +12,7 @@
 
 ```bash
 # 1. 在服务器 115.175.225.110 上执行
-sudo ./scripts/deploy-domain.sh service.sjlpj.cn admin@tvc-tech.com
+sudo ./scripts/deploy-domain.sh service.sjlpj.cn admin@service.sjlpj.cn
 
 # 脚本会自动完成所有配置
 ```
@@ -28,7 +28,7 @@ sudo ./scripts/deploy-domain.sh service.sjlpj.cn admin@tvc-tech.com
 ```
 类型: A
 主机记录: service
-域名: tvc-tech.com
+域名: service.sjlpj.cn
 记录值: 115.175.225.110
 TTL: 600
 ```
@@ -74,7 +74,7 @@ sleep 30
 sudo certbot --nginx \
     --non-interactive \
     --agree-tos \
-    --email admin@tvc-tech.com \
+    --email admin@service.sjlpj.cn \
     --domains service.sjlpj.cn \
     --redirect
 ```

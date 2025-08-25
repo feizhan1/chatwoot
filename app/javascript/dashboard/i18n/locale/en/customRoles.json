@@ -1,0 +1,117 @@
+{
+  "CUSTOM_ROLE": {
+    "HEADER": "Custom Roles",
+    "LEARN_MORE": "Learn more about custom roles",
+    "DESCRIPTION": "Custom roles allow you to create roles with specific permissions and access levels to suit the requirements of your organization. Create roles that match your team structure and workflow needs.",
+    "HEADER_BTN_TXT": "Add Custom Role",
+    "LOADING": "Loading custom roles...",
+    "SEARCH_404": "There are no items matching this query.",
+    
+    "PAYWALL": {
+      "TITLE": "Upgrade to Create Custom Roles",
+      "AVAILABLE_ON": "The custom role feature is only available in Business and Enterprise plans.",
+      "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like custom roles, team management, automations, and more.",
+      "UPGRADE_NOW": "Upgrade Now",
+      "CANCEL_ANYTIME": "You can change or cancel your plan anytime",
+      "CONTACT_ADMIN": "Please contact your administrator to upgrade your plan."
+    },
+    
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "The custom role feature is only available in paid plans.",
+      "UPGRADE_PROMPT": "Upgrade to a paid plan to access advanced features like custom roles, audit logs, agent capacity, and more.",
+      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+    },
+    
+    "LIST": {
+      "404": "There are no custom roles available in this account.",
+      "TITLE": "Manage Custom Roles",
+      "DESC": "Custom roles allow you to create roles with specific permissions and access levels to suit the requirements of your organization.",
+      "NO_CUSTOM_ROLES": "No custom roles yet",
+      "ERROR_LOADING": "Error loading custom roles",
+      "USERS": "Users",
+      "USER_COUNT": "{count} users",
+      "TABLE_HEADER": {
+        "NAME": "Name",
+        "DESCRIPTION": "Description", 
+        "PERMISSIONS": "Permissions",
+        "USERS": "Users",
+        "ACTIONS": "Actions"
+      }
+    },
+    
+    "PERMISSIONS": {
+      "CONVERSATION_MANAGE": "Manage All Conversations",
+      "CONVERSATION_UNASSIGNED_MANAGE": "Manage Unassigned & Own Conversations",
+      "CONVERSATION_PARTICIPATING_MANAGE": "Manage Participating Conversations",
+      "CONTACT_MANAGE": "Manage Contacts",
+      "REPORT_MANAGE": "Manage Reports", 
+      "KNOWLEDGE_BASE_MANAGE": "Manage Knowledge Base"
+    },
+    
+    "FORM": {
+      "NAME": {
+        "LABEL": "Name",
+        "PLACEHOLDER": "Enter role name",
+        "ERROR": "Name is required.",
+        "MIN_LENGTH_ERROR": "Name must be at least 2 characters long",
+        "MAX_LENGTH_ERROR": "Name cannot exceed 100 characters"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Description",
+        "PLACEHOLDER": "Enter role description",
+        "ERROR": "Description is required.",
+        "MAX_LENGTH_ERROR": "Description cannot exceed 500 characters"
+      },
+      "PERMISSIONS": {
+        "LABEL": "Permissions",
+        "ERROR": "At least one permission must be selected.",
+        "CONVERSATION_MANAGEMENT": "Conversation Management",
+        "CONVERSATION_HELP_TEXT": "Choose one conversation permission level (higher levels include lower level capabilities)",
+        "ADDITIONAL_PERMISSIONS": "Additional Permissions",
+        "SELECTED_PERMISSIONS": "Selected Permissions ({count})",
+        "PERMISSION_LEVELS": {
+          "HIGHEST": "Highest Level",
+          "MEDIUM": "Medium Level", 
+          "BASIC": "Basic Level"
+        }
+      },
+      "CANCEL_BUTTON_TEXT": "Cancel",
+      "API": {
+        "ERROR_MESSAGE": "Could not connect to server. Please try again."
+      }
+    },
+    
+    "ADD": {
+      "TITLE": "Add Custom Role",
+      "DESC": "Custom roles allow you to create roles with specific permissions and access levels to suit the requirements of your organization.",
+      "SUBMIT": "Create Role",
+      "API": {
+        "SUCCESS_MESSAGE": "Custom role created successfully."
+      }
+    },
+    
+    "EDIT": {
+      "BUTTON_TEXT": "Edit",
+      "TITLE": "Edit Custom Role", 
+      "DESC": "Custom roles allow you to create roles with specific permissions and access levels to suit the requirements of your organization.",
+      "SUBMIT": "Update Role",
+      "API": {
+        "SUCCESS_MESSAGE": "Custom role updated successfully."
+      }
+    },
+    
+    "DELETE": {
+      "BUTTON_TEXT": "Delete",
+      "API": {
+        "SUCCESS_MESSAGE": "Custom role deleted successfully.",
+        "ERROR_MESSAGE": "Could not connect to server. Please try again."
+      },
+      "CONFIRM": {
+        "TITLE": "Confirm Deletion",
+        "MESSAGE": "Are you sure you want to delete",
+        "YES": "Yes, Delete",
+        "NO": "No, Keep"
+      }
+    }
+  }
+}

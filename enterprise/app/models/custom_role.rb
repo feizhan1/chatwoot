@@ -4,16 +4,26 @@
 #
 #  id          :bigint           not null, primary key
 #  description :string
+#  is_system   :boolean          default(FALSE), not null
 #  name        :string
 #  permissions :text             default([]), is an Array
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  account_id  :bigint           not null
+#  parent_id   :bigint
 #
 # Indexes
 #
-#  index_custom_roles_on_account_id  (account_id)
+#  index_custom_roles_on_account_id            (account_id)
+#  index_custom_roles_on_account_id_and_name   (account_id,name) UNIQUE
+#  index_custom_roles_on_is_system             (is_system)
+#  index_custom_roles_on_parent_id             (parent_id)
+#  index_custom_roles_unique_name_per_account  (account_id,name) UNIQUE
 #
+# Foreign Keys
+#
+#  fk_rails_...  (account_id => accounts.id) ON DELETE => cascade
+#  fk_rails_...  (parent_id => custom_roles.id)
 #
 
 # Available permissions for custom roles:

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_25_020836) do
   # These extensions should be enabled to support this database
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
@@ -703,6 +703,39 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
     t.index ["user_id"], name: "index_custom_filters_on_user_id"
   end
 
+  create_table "custom_role_audit_logs", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "custom_role_id"
+    t.bigint "user_id"
+    t.bigint "target_user_id"
+    t.string "action", null: false
+    t.jsonb "change_data"
+    t.string "ip_address"
+    t.string "user_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_custom_role_audit_logs_on_account_id"
+    t.index ["action"], name: "index_custom_role_audit_logs_on_action"
+    t.index ["change_data"], name: "index_custom_role_audit_logs_on_change_data", using: :gin
+    t.index ["created_at"], name: "index_custom_role_audit_logs_on_created_at"
+    t.index ["custom_role_id"], name: "index_custom_role_audit_logs_on_custom_role_id"
+    t.index ["target_user_id"], name: "index_custom_role_audit_logs_on_target_user_id"
+    t.index ["user_id"], name: "index_custom_role_audit_logs_on_user_id"
+  end
+
+  create_table "custom_role_templates", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.text "permissions", default: [], array: true
+    t.boolean "is_system", default: false, null: false
+    t.string "category"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category"], name: "index_custom_role_templates_on_category"
+    t.index ["is_system"], name: "index_custom_role_templates_on_is_system"
+    t.index ["name"], name: "index_custom_role_templates_on_name", unique: true
+  end
+
   create_table "custom_roles", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -710,7 +743,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
     t.text "permissions", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "parent_id"
+    t.boolean "is_system", default: false, null: false
+    t.index ["account_id", "name"], name: "index_custom_roles_on_account_id_and_name", unique: true
+    t.index ["account_id", "name"], name: "index_custom_roles_unique_name_per_account", unique: true
     t.index ["account_id"], name: "index_custom_roles_on_account_id"
+    t.index ["is_system"], name: "index_custom_roles_on_is_system"
+    t.index ["parent_id"], name: "index_custom_roles_on_parent_id"
+    t.check_constraint "array_length(permissions, 1) > 0", name: "check_custom_roles_has_permissions"
+    t.check_constraint "length(TRIM(BOTH FROM name)) > 0", name: "check_custom_roles_name_not_empty"
   end
 
   create_table "dashboard_apps", force: :cascade do |t|
@@ -1199,8 +1240,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
     t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
   end
 
+  add_foreign_key "account_users", "custom_roles", on_delete: :nullify
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "custom_role_audit_logs", "accounts"
+  add_foreign_key "custom_role_audit_logs", "custom_roles"
+  add_foreign_key "custom_role_audit_logs", "users"
+  add_foreign_key "custom_role_audit_logs", "users", column: "target_user_id"
+  add_foreign_key "custom_roles", "accounts", on_delete: :cascade
+  add_foreign_key "custom_roles", "custom_roles", column: "parent_id"
   add_foreign_key "inboxes", "portals"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

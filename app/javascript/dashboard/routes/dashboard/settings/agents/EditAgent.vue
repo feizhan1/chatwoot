@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
@@ -65,7 +65,7 @@ const pageTitle = computed(
 );
 
 const uiFlags = useMapGetter('agents/getUIFlags');
-const getCustomRoles = useMapGetter('customRole/getCustomRoles');
+const getCustomRoles = useMapGetter('customRoles/getCustomRoles');
 
 const roles = computed(() => {
   const defaultRoles = [
@@ -81,7 +81,7 @@ const roles = computed(() => {
     },
   ];
 
-  const customRoles = getCustomRoles.value.map(role => ({
+  const customRoles = (getCustomRoles.value || []).map(role => ({
     id: role.id,
     name: `custom_${role.id}`,
     label: role.name,
@@ -147,6 +147,11 @@ const resetPassword = async () => {
     useAlert(t('AGENT_MGMT.EDIT.PASSWORD_RESET.ERROR_MESSAGE'));
   }
 };
+
+// Load custom roles when component mounts
+onMounted(() => {
+  store.dispatch('customRoles/fetchCustomRoles');
+});
 </script>
 
 <template>
