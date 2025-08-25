@@ -39,15 +39,15 @@ const deleteMessage = computed(() => {
 const agentList = computed(() => getters['agents/getAgents'].value);
 const uiFlags = computed(() => getters['agents/getUIFlags'].value);
 const currentUserId = computed(() => getters.getCurrentUserID.value);
-const customRoles = useMapGetter('customRole/getCustomRoles');
+const customRoles = useMapGetter('customRoles/getCustomRoles');
 
 onMounted(() => {
   store.dispatch('agents/get');
-  store.dispatch('customRole/getCustomRole');
+  store.dispatch('customRoles/fetchCustomRoles');
 });
 
 const findCustomRole = agent =>
-  customRoles.value.find(role => role.id === agent.custom_role_id);
+  (customRoles.value || []).find(role => role.id === agent.custom_role_id);
 
 const getAgentRoleName = agent => {
   if (!agent.custom_role_id) {

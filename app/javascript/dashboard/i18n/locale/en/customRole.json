@@ -11,7 +11,8 @@
       "AVAILABLE_ON": "The custom role feature is only available in the Business and Enterprise plans.",
       "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
       "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "CANCEL_ANYTIME": "You can change or cancel your plan anytime",
+      "CONTACT_ADMIN": "Please contact your administrator to upgrade your plan."
     },
     "ENTERPRISE_PAYWALL": {
       "AVAILABLE_ON": "The custom role feature is only available in the paid plans.",
@@ -22,10 +23,15 @@
       "404": "There are no custom roles available in this account.",
       "TITLE": "Manage custom roles",
       "DESC": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
+      "NO_CUSTOM_ROLES": "No custom roles yet",
+      "ERROR_LOADING": "Error loading custom roles",
+      "USERS": "Users",
+      "USER_COUNT": "{count} users",
       "TABLE_HEADER": {
         "NAME": "Name",
         "DESCRIPTION": "Description",
         "PERMISSIONS": "Permissions",
+        "USERS": "Users",
         "ACTIONS": "Actions"
       }
     },
@@ -37,20 +43,40 @@
       "REPORT_MANAGE": "Manage reports",
       "KNOWLEDGE_BASE_MANAGE": "Manage knowledge base"
     },
+    "PERMISSION_DESCRIPTIONS": {
+      "CONVERSATION_MANAGE": "Can manage all conversations within assigned inboxes",
+      "CONVERSATION_UNASSIGNED_MANAGE": "Can manage unassigned conversations and those assigned to them",
+      "CONVERSATION_PARTICIPATING_MANAGE": "Can manage conversations they are participating in or assigned to",
+      "CONTACT_MANAGE": "Can create, update, and manage contacts",
+      "REPORT_MANAGE": "Can access and view reports and analytics",
+      "KNOWLEDGE_BASE_MANAGE": "Can create, edit, and manage knowledge base articles and portals"
+    },
     "FORM": {
       "NAME": {
         "LABEL": "Name",
         "PLACEHOLDER": "Please enter a name.",
-        "ERROR": "Name is required."
+        "ERROR": "Name is required.",
+        "MIN_LENGTH_ERROR": "Name must be at least 2 characters long",
+        "MAX_LENGTH_ERROR": "Name cannot exceed 100 characters"
       },
       "DESCRIPTION": {
         "LABEL": "Description",
         "PLACEHOLDER": "Please enter a description.",
-        "ERROR": "Description is required."
+        "ERROR": "Description is required.",
+        "MAX_LENGTH_ERROR": "Description cannot exceed 500 characters"
       },
       "PERMISSIONS": {
         "LABEL": "Permissions",
-        "ERROR": "Permissions are required."
+        "ERROR": "Permissions are required.",
+        "CONVERSATION_MANAGEMENT": "Conversation Management",
+        "CONVERSATION_HELP_TEXT": "Choose one conversation permission level (higher levels include lower level capabilities)",
+        "ADDITIONAL_PERMISSIONS": "Additional Permissions",
+        "SELECTED_PERMISSIONS": "Selected Permissions ({count})",
+        "PERMISSION_LEVELS": {
+          "HIGHEST": "Highest Level",
+          "MEDIUM": "Medium Level",
+          "BASIC": "Basic Level"
+        }
       },
       "CANCEL_BUTTON_TEXT": "Cancel",
       "API": {

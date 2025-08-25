@@ -11,7 +11,8 @@
       "AVAILABLE_ON": "自定义角色功能仅在商务版和企业版计划中可用。",
       "UPGRADE_PROMPT": "升级您的计划以获取团队管理、自动化、自定义属性等高级功能。",
       "UPGRADE_NOW": "立即升级",
-      "CANCEL_ANYTIME": "您可以随时更改或取消您的计划"
+      "CANCEL_ANYTIME": "您可以随时更改或取消您的计划",
+      "CONTACT_ADMIN": "请联系您的管理员升级您的计划。"
     },
     "ENTERPRISE_PAYWALL": {
       "AVAILABLE_ON": "自定义角色功能仅在付费计划中可用。",
@@ -22,10 +23,15 @@
       "404": "此账户中没有可用的自定义角色。",
       "TITLE": "管理自定义角色",
       "DESC": "自定义角色是由账户所有者或管理员创建的角色。这些角色可以分配给客服人员，以定义他们在账户中的访问权限和权限。自定义角色可以根据组织的需求创建特定的权限和访问级别。",
+      "NO_CUSTOM_ROLES": "暂无自定义角色",
+      "ERROR_LOADING": "加载自定义角色时出错",
+      "USERS": "用户",
+      "USER_COUNT": "{count} 个用户",
       "TABLE_HEADER": {
         "NAME": "姓名",
         "DESCRIPTION": "描述",
         "PERMISSIONS": "权限",
+        "USERS": "用户",
         "ACTIONS": "操作"
       }
     },
@@ -37,20 +43,40 @@
       "REPORT_MANAGE": "管理报告",
       "KNOWLEDGE_BASE_MANAGE": "管理知识库"
     },
+    "PERMISSION_DESCRIPTIONS": {
+      "CONVERSATION_MANAGE": "可以管理分配收件箱内的所有对话",
+      "CONVERSATION_UNASSIGNED_MANAGE": "可以管理未分配的对话和分配给他们的对话",
+      "CONVERSATION_PARTICIPATING_MANAGE": "可以管理他们参与或分配给他们的对话",
+      "CONTACT_MANAGE": "可以创建、更新和管理联系人",
+      "REPORT_MANAGE": "可以访问和查看报告和分析",
+      "KNOWLEDGE_BASE_MANAGE": "可以创建、编辑和管理知识库文章和门户"
+    },
     "FORM": {
       "NAME": {
         "LABEL": "姓名",
         "PLACEHOLDER": "请输入名称。",
-        "ERROR": "名称是必填项。"
+        "ERROR": "名称是必填项。",
+        "MIN_LENGTH_ERROR": "名称至少需要2个字符",
+        "MAX_LENGTH_ERROR": "名称不能超过100个字符"
       },
       "DESCRIPTION": {
         "LABEL": "描述",
         "PLACEHOLDER": "请输入描述。",
-        "ERROR": "描述是必需的。"
+        "ERROR": "描述是必需的。",
+        "MAX_LENGTH_ERROR": "描述不能超过500个字符"
       },
       "PERMISSIONS": {
         "LABEL": "权限",
-        "ERROR": "权限是必需的。"
+        "ERROR": "权限是必需的。",
+        "CONVERSATION_MANAGEMENT": "对话管理",
+        "CONVERSATION_HELP_TEXT": "选择一个对话权限级别（更高级别包含较低级别的功能）",
+        "ADDITIONAL_PERMISSIONS": "附加权限",
+        "SELECTED_PERMISSIONS": "已选择的权限（{count} 个）",
+        "PERMISSION_LEVELS": {
+          "HIGHEST": "最高级别",
+          "MEDIUM": "中等级别",
+          "BASIC": "基础级别"
+        }
       },
       "CANCEL_BUTTON_TEXT": "取消",
       "API": {
