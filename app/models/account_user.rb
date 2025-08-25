@@ -23,9 +23,14 @@
 #  index_account_users_on_user_id                   (user_id)
 #  uniq_user_id_per_account_id                      (account_id,user_id) UNIQUE
 #
+# Foreign Keys
+#
+#  fk_rails_...  (custom_role_id => custom_roles.id) ON DELETE => nullify
+#
 
 class AccountUser < ApplicationRecord
   include AvailabilityStatusable
+  include CustomRoleSupport
 
   belongs_to :account
   belongs_to :user

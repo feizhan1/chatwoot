@@ -1,0 +1,99 @@
+{
+  "CUSTOM_ROLE": {
+    "HEADER": "自定义角色",
+    "LEARN_MORE": "了解更多关于自定义角色",
+    "DESCRIPTION": "自定义角色允许您创建具有特定权限和访问级别的角色，以满足您组织的要求。创建与您的团队结构和工作流程需求相匹配的角色。",
+    "HEADER_BTN_TXT": "添加自定义角色",
+    "LOADING": "正在加载自定义角色...",
+    "SEARCH_404": "没有与此查询匹配的项目。",
+    
+    "PAYWALL": {
+      "TITLE": "升级以创建自定义角色",
+      "AVAILABLE_ON": "自定义角色功能仅在商业版和企业版计划中可用。",
+      "UPGRADE_PROMPT": "升级您的计划以获得自定义角色、团队管理、自动化等高级功能的访问权限。",
+      "UPGRADE_NOW": "立即升级",
+      "CANCEL_ANYTIME": "您可以随时更改或取消您的计划"
+    },
+    
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "自定义角色功能仅在付费计划中可用。",
+      "UPGRADE_PROMPT": "升级到付费计划以访问自定义角色、审计日志、座席容量等高级功能。",
+      "ASK_ADMIN": "请联系您的管理员进行升级。"
+    },
+    
+    "LIST": {
+      "404": "此账户中没有可用的自定义角色。",
+      "TITLE": "管理自定义角色",
+      "DESC": "自定义角色允许您创建具有特定权限和访问级别的角色，以满足您组织的要求。",
+      "TABLE_HEADER": {
+        "NAME": "名称",
+        "DESCRIPTION": "描述", 
+        "PERMISSIONS": "权限",
+        "ACTIONS": "操作"
+      }
+    },
+    
+    "PERMISSIONS": {
+      "CONVERSATION_MANAGE": "管理所有对话",
+      "CONVERSATION_UNASSIGNED_MANAGE": "管理未分配和自己的对话",
+      "CONVERSATION_PARTICIPATING_MANAGE": "管理参与的对话",
+      "CONTACT_MANAGE": "管理联系人",
+      "REPORT_MANAGE": "管理报告", 
+      "KNOWLEDGE_BASE_MANAGE": "管理知识库"
+    },
+    
+    "FORM": {
+      "NAME": {
+        "LABEL": "名称",
+        "PLACEHOLDER": "输入角色名称",
+        "ERROR": "名称是必填项。"
+      },
+      "DESCRIPTION": {
+        "LABEL": "描述",
+        "PLACEHOLDER": "输入角色描述",
+        "ERROR": "描述是必填项。"
+      },
+      "PERMISSIONS": {
+        "LABEL": "权限",
+        "ERROR": "必须至少选择一个权限。"
+      },
+      "CANCEL_BUTTON_TEXT": "取消",
+      "API": {
+        "ERROR_MESSAGE": "无法连接到服务器。请重试。"
+      }
+    },
+    
+    "ADD": {
+      "TITLE": "添加自定义角色",
+      "DESC": "自定义角色允许您创建具有特定权限和访问级别的角色，以满足您组织的要求。",
+      "SUBMIT": "创建角色",
+      "API": {
+        "SUCCESS_MESSAGE": "自定义角色创建成功。"
+      }
+    },
+    
+    "EDIT": {
+      "BUTTON_TEXT": "编辑",
+      "TITLE": "编辑自定义角色", 
+      "DESC": "自定义角色允许您创建具有特定权限和访问级别的角色，以满足您组织的要求。",
+      "SUBMIT": "更新角色",
+      "API": {
+        "SUCCESS_MESSAGE": "自定义角色更新成功。"
+      }
+    },
+    
+    "DELETE": {
+      "BUTTON_TEXT": "删除",
+      "API": {
+        "SUCCESS_MESSAGE": "自定义角色删除成功。",
+        "ERROR_MESSAGE": "无法连接到服务器。请重试。"
+      },
+      "CONFIRM": {
+        "TITLE": "确认删除",
+        "MESSAGE": "您确定要删除",
+        "YES": "是，删除",
+        "NO": "否，保留"
+      }
+    }
+  }
+}

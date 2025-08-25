@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
@@ -29,7 +29,7 @@ const v$ = useVuelidate(rules, {
 });
 
 const uiFlags = useMapGetter('agents/getUIFlags');
-const getCustomRoles = useMapGetter('customRole/getCustomRoles');
+const getCustomRoles = useMapGetter('customRoles/getCustomRoles');
 
 const roles = computed(() => {
   const defaultRoles = [
@@ -45,7 +45,7 @@ const roles = computed(() => {
     },
   ];
 
-  const customRoles = getCustomRoles.value.map(role => ({
+  const customRoles = (getCustomRoles.value || []).map(role => ({
     id: role.id,
     name: `custom_${role.id}`,
     label: role.name,
@@ -100,6 +100,11 @@ const addAgent = async () => {
     useAlert(errorResponse || attrError || errorMessage);
   }
 };
+
+// Load custom roles when component mounts
+onMounted(() => {
+  store.dispatch('customRoles/fetchCustomRoles');
+});
 </script>
 
 <template>
