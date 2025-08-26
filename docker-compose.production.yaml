@@ -70,34 +70,34 @@ services:
       - rails
     command: nginx -g 'daemon off;'
 
-  backup:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile.backup
-    restart: unless-stopped
-    env_file: .env.production
-    depends_on:
-      - postgres
-      - redis
-    volumes:
-      - backup_logs:/app/logs
-      - ./scripts/backup/backup-to-s3.sh:/app/scripts/backup-to-s3.sh:ro
-    environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_NAME=chatwoot
-      - DB_USER=postgres
-      - DB_PASSWORD=421124
-      # 将 .env.production 中的 S3 配置映射为备份脚本期望的变量名
-      - S3_BUCKET=${S3_BACKUP_BUCKET}
-      - S3_PREFIX=${S3_BACKUP_PREFIX}
-    networks:
-      - default
-    command: cron
+  # backup:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/Dockerfile.backup
+  #   restart: unless-stopped
+  #   env_file: .env.production
+  #   depends_on:
+  #     - postgres
+  #     - redis
+  #   volumes:
+  #     - backup_logs:/app/logs
+  #     - ./scripts/backup/backup-to-s3.sh:/app/scripts/backup-to-s3.sh:ro
+  #   environment:
+  #     - DB_HOST=postgres
+  #     - DB_PORT=5432
+  #     - DB_NAME=chatwoot
+  #     - DB_USER=postgres
+  #     - DB_PASSWORD=421124
+  #     # 将 .env.production 中的 S3 配置映射为备份脚本期望的变量名
+  #     - S3_BUCKET=${S3_BACKUP_BUCKET}
+  #     - S3_PREFIX=${S3_BACKUP_PREFIX}
+  #   networks:
+  #     - default
+  #   command: cron
 
 volumes:
   storage_data:
   postgres_data:
   redis_data:
   nginx_logs:
-  backup_logs:
+  # backup_logs:
