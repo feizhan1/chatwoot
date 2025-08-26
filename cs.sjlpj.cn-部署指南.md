@@ -101,8 +101,8 @@ sudo chown -R $(whoami):$(whoami) docker/letsencryptPro
 
 ```bash
 # nginx 配置文件已更新为 cs.sjlpj.cn
-# 启用 SSL 证书配置行
-sed -i 's/    # ssl_certificate /    ssl_certificate /g' docker/nginxPro.conf
+# 启用 SSL 配置行
+sed -i 's/# ssl_certificate/ssl_certificate/g' docker/nginxPro.conf
 
 # 重新启动 nginx 容器应用新配置
 docker-compose -f docker-compose.production.yaml start nginx
