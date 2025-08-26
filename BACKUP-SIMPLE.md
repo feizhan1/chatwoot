@@ -89,7 +89,7 @@ tail -10 /var/log/chatwoot-backup-status.log
 crontab -e
 
 # 添加这一行（在备份任务下方）：
-0 9 * * * cd /var/www/chatwoot && ./scripts/check-backup-status.sh today || echo "备份检查失败" | mail -s "备份警告" admin@cs.sjlpj.cn
+0 9 * * * cd /var/www/chatwoot && ./scripts/check-backup-status.sh today || echo "备份检查失败"
 ```
 
 ## 📂 备份文件结构
