@@ -103,7 +103,6 @@ sudo chown -R $(whoami):$(whoami) docker/letsencryptPro
 # nginx 配置文件已更新为 cs.sjlpj.cn
 # 启用 SSL 配置行
 sed -i 's/# ssl_certificate/ssl_certificate/g' docker/nginxPro.conf
-
 # 重新启动 nginx 容器应用新配置
 docker-compose -f docker-compose.production.yaml start nginx
 ```
@@ -197,6 +196,25 @@ docker-compose -f docker-compose.production.yaml up -d
 docker-compose -f docker-compose.production.yaml restart nginx
 
 # 查看 nginx 日志
+docker-compose -f docker-compose.production.yaml logs -f nginx
+
+# 查看所有服务的实时日志
+docker-compose -f docker-compose.production.yaml logs -f
+
+# 查看特定服务的日志
+docker-compose -f docker-compose.production.yaml logs -f nginx
+docker-compose -f docker-compose.production.yaml logs -f rails
+docker-compose -f docker-compose.production.yaml logs -f postgres
+docker-compose -f docker-compose.production.yaml logs -f redis
+docker-compose -f docker-compose.production.yaml logs -f sidekiq
+
+# 查看最近的日志（不跟踪）
+docker-compose -f docker-compose.production.yaml logs --tail=50 nginx
+
+# 查看所有服务状态
+docker-compose -f docker-compose.production.yaml ps
+
+如果 nginx 在重启，重点查看 nginx 日志：
 docker-compose -f docker-compose.production.yaml logs -f nginx
 
 # 重启 chatwoot 应用
@@ -293,6 +311,115 @@ docker-compose -f docker-compose.production.yaml up -d
 - [ ] SSL 证书自动续期已设置
 - [ ] 防火墙规则已配置 (80, 443 端口开放)
 
+## 📦 数据备份与容灾
+
+### Docker 化备份服务 (推荐)
+
+系统已集成 Docker 化的备份服务，自动每日备份数据库到 AWS S3。
+
+#### 1. 配置 AWS 凭证
+
+```bash
+# 编辑生产环境配置文件
+nano .env.production
+
+# 在 S3 配置部分设置以下变量:
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+AWS_REGION=us-east-1
+
+# 数据库备份专用配置:
+S3_BACKUP_BUCKET=your-backup-bucket-name
+S3_BACKUP_PREFIX=chatwoot-backups
+```
+
+#### 2. 启动备份服务
+
+```bash
+# 构建并启动包括备份服务在内的所有服务
+docker-compose -f docker-compose.production.yaml up -d
+
+# 检查备份服务状态
+docker-compose -f docker-compose.production.yaml ps backup
+```
+
+#### 3. 管理备份服务
+
+```bash
+# 查看备份服务日志
+docker-compose -f docker-compose.production.yaml logs -f backup
+
+# 手动执行一次备份
+docker-compose -f docker-compose.production.yaml exec backup /app/scripts/backup-to-s3.sh
+
+# 测试备份功能
+docker-compose -f docker-compose.production.yaml exec backup /app/scripts/backup-entrypoint.sh test
+
+# 重启备份服务
+docker-compose -f docker-compose.production.yaml restart backup
+```
+
+### 传统备份方式 (可选)
+
+如需使用传统的 cron 方式，可以使用以下脚本：
+
+#### 1. 安装备份系统
+
+```bash
+# 设置备份脚本执行权限
+chmod +x scripts/backup/setup-backup.sh scripts/backup/install-cron.sh scripts/backup/test-backup.sh
+
+# 运行安装脚本
+sudo ./scripts/backup/setup-backup.sh
+```
+
+#### 2. 配置 AWS 凭证
+
+```bash
+# 编辑备份配置文件
+sudo nano /opt/chatwoot-backup/.env.backup
+
+# 设置变量 (同 Docker 版本)
+```
+
+#### 3. 安装定时任务
+
+```bash
+# 安装每日自动备份任务 (每天凌晨0点)
+sudo ./scripts/backup/install-cron.sh
+```
+
+### 备份管理命令
+
+```bash
+# 查看备份日志
+tail -f /var/log/chatwoot-backup.log
+
+# 查看 S3 中的备份文件
+aws s3 ls s3://your-bucket/chatwoot-backups/ --recursive
+
+# 手动执行备份
+sudo /opt/chatwoot-backup/scripts/backup-to-s3.sh
+
+# 查看定时任务状态
+crontab -l | grep chatwoot
+```
+
+### 数据恢复
+
+```bash
+# 从 S3 下载备份文件
+aws s3 cp s3://your-bucket/chatwoot-backups/2024/01/backup.sql.gz /tmp/
+
+# 解压备份文件
+gunzip /tmp/backup.sql.gz
+
+# 恢复数据库 (请先停止应用)
+docker-compose -f docker-compose.production.yaml stop rails sidekiq
+docker-compose -f docker-compose.production.yaml exec postgres psql -U postgres -d chatwoot < /tmp/backup.sql
+docker-compose -f docker-compose.production.yaml start rails sidekiq
+```
+
 ## 🌟 部署后效果
 
 ✅ **访问地址**: https://cs.sjlpj.cn
@@ -300,7 +427,9 @@ docker-compose -f docker-compose.production.yaml up -d
 ✅ **SSL 安全**: Let's Encrypt 免费证书
 ✅ **自动续期**: 证书自动续期，无需手动维护
 ✅ **性能优化**: nginx 反向代理，静态文件缓存
+✅ **数据备份**: 每日自动备份到 AWS S3
+✅ **容灾恢复**: 完整的备份恢复流程
 
 ---
 
-部署完成后，您的 Chatwoot 系统将通过 `https://cs.sjlpj.cn` 提供安全、稳定的服务！
+部署完成后，您的 Chatwoot 系统将通过 `https://cs.sjlpj.cn` 提供安全、稳定的服务，并具备完善的数据保护机制！
