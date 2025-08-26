@@ -10,6 +10,7 @@ S3_BUCKET="tvc-chatwoot-public"
 AWS_REGION="us-east-1"
 
 # 数据库配置 (Docker 环境，通常不需要修改)
+DB_CONTAINER="chatwoot_postgres_1"  # Docker 容器名称
 DB_NAME="chatwoot"
 DB_USER="postgres"
 
@@ -38,8 +39,8 @@ timestamp=$(date +%Y%m%d_%H%M%S)
 backup_file="/tmp/chatwoot-backup-${timestamp}.sql.gz"
 
 # 通过 Docker 导出数据库并压缩
-log "正在连接数据库..."
-if ! docker exec chatwoot-postgres \
+log "正在连接数据库容器: $DB_CONTAINER"
+if ! docker exec "$DB_CONTAINER" \
     pg_dump -U "$DB_USER" -d "$DB_NAME" --no-owner --no-privileges --clean > "/tmp/backup.sql"; then
     log "错误: 数据库导出失败"
     exit 1
