@@ -15,7 +15,7 @@
 
 ```
 类型: A
-主机记录: service
+主机记录: @
 域名: cs.sjlpj.cn
 记录值: 50.17.87.26
 TTL: 600
@@ -30,11 +30,11 @@ dig cs.sjlpj.cn
 ### 步骤 2: 停止当前服务
 
 ```bash
-cd /var/wwww
+cd /var/www
 git clone https://github.com/feizhan1/chatwoot.git
 git checkout feature/deploy-production
 # 在服务器上进入项目目录
-cd /chatwoot
+cd chatwoot
 
 # 停止当前的 IP 访问服务
 docker-compose -f docker-compose.production.yaml down
@@ -44,8 +44,11 @@ docker-compose -f docker-compose.production.yaml down
 
 ```bash
 # 安装 certbot
-sudo yum update
-sudo yum install -y certbot python3-certbot-nginx
+# 1. 安装 EPEL 仓库
+yum install -y epel-release
+
+# 2. 安装 certbot 和 nginx 插件
+yum install -y certbot python2-certbot-nginx
 ```
 
 ### 步骤 4: 启动域名服务
@@ -58,19 +61,32 @@ docker-compose -f docker-compose.production.yaml up -d
 sleep 30
 ```
 
-### 步骤 5: 申请 SSL 证书
+### 步骤 5: 数据库初始化
 
 ```bash
-# 申请 Let's Encrypt 免费 SSL 证书
-sudo certbot --nginx \
+# 初次部署需要创建和迁移数据库
+docker-compose -f docker-compose.production.yaml exec rails bundle exec rails db:create db:migrate
+
+# 如果是全新安装，还可以加载种子数据
+docker-compose -f docker-compose.production.yaml exec rails bundle exec rails db:seed
+```
+
+### 步骤 6: 申请 SSL 证书
+
+```bash
+# 临时停止 nginx 容器
+docker-compose -f docker-compose.production.yaml stop nginx
+
+# 使用 standalone 模式申请 Let's Encrypt 免费 SSL 证书
+sudo certbot certonly \
+    --standalone \
     --non-interactive \
     --agree-tos \
     --email admin@cs.sjlpj.cn \
-    --domains cs.sjlpj.cn \
-    --redirect
+    --domains cs.sjlpj.cn
 ```
 
-### 步骤 6: 配置证书文件
+### 步骤 7: 配置证书文件
 
 ```bash
 # 创建证书目录并复制证书
@@ -81,15 +97,18 @@ sudo cp -r /etc/letsencrypt/* docker/letsencryptPro/
 sudo chown -R $(whoami):$(whoami) docker/letsencryptPro
 ```
 
-### 步骤 7: 更新 nginx 配置
+### 步骤 8: 更新 nginx 配置
 
 ```bash
 # nginx 配置文件已更新为 cs.sjlpj.cn
-# 启用 SSL 配置行
-sed -i 's/# ssl_certificate/ssl_certificate/g' docker/nginxPro.conf
+# 启用 SSL 证书配置行
+sed -i 's/    # ssl_certificate /    ssl_certificate /g' docker/nginxPro.conf
+
+# 重新启动 nginx 容器应用新配置
+docker-compose -f docker-compose.production.yaml start nginx
 ```
 
-### 步骤 8: 重启服务
+### 步骤 9: 重启服务
 
 ```bash
 # 重启所有服务以应用新配置
@@ -99,7 +118,7 @@ docker-compose -f docker-compose.production.yaml restart
 docker-compose -f docker-compose.production.yaml ps
 ```
 
-### 步骤 9: 设置自动续期
+### 步骤 10: 设置自动续期
 
 ```bash
 # 添加证书自动续期任务
@@ -241,13 +260,13 @@ sudo certbot --nginx -d cs.sjlpj.cn
 
 ```bash
 # 查看详细错误日志
-docker-compose -f docker-compose.production.yaml --env-file .env.cs.sjlpj.cn logs
+docker-compose -f docker-compose.production.yaml logs
 
 # 检查配置文件语法
 nginx -t -c docker/nginx.conf
 
 # 检查环境变量
-cat .env.cs.sjlpj.cn
+cat .env.production
 ```
 
 ## 🔄 回滚到 IP 访问
@@ -261,7 +280,7 @@ docker-compose -f docker-compose.production.yaml down
 # 启动原始 IP 服务
 docker-compose -f docker-compose.production.yaml up -d
 
-# 现在可以通过 http://50.17.87.26:30000 访问
+# 现在可以通过 http://50.17.87.26:3000 访问
 ```
 
 ## 🎯 部署完成检查清单
