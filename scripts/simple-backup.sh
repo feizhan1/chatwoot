@@ -38,9 +38,26 @@ timestamp=$(date +%Y%m%d_%H%M%S)
 backup_file="/tmp/chatwoot-backup-${timestamp}.sql.gz"
 
 # 通过 Docker 导出数据库并压缩
-docker-compose -f docker-compose.production.yaml exec -T postgres \
-    pg_dump -U "$DB_USER" -d "$DB_NAME" --no-owner --no-privileges --clean | \
-    gzip > "$backup_file"
+log "正在连接数据库..."
+if ! docker exec chatwoot-postgres \
+    pg_dump -U "$DB_USER" -d "$DB_NAME" --no-owner --no-privileges --clean > "/tmp/backup.sql"; then
+    log "错误: 数据库导出失败"
+    exit 1
+fi
+
+# 检查导出文件大小
+backup_size=$(wc -c < "/tmp/backup.sql")
+log "数据库导出完成，文件大小: $backup_size bytes"
+
+if [ "$backup_size" -lt 1000 ]; then
+    log "警告: 备份文件太小，可能有问题"
+    log "备份文件内容预览:"
+    head -20 "/tmp/backup.sql"
+fi
+
+# 压缩文件
+gzip < "/tmp/backup.sql" > "$backup_file"
+rm -f "/tmp/backup.sql"
 
 log "备份文件创建完成: $backup_file"
 
