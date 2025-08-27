@@ -51,7 +51,7 @@ chmod +x scripts/simple-backup.sh
 crontab -e
 
 # 添加这一行：
-0 2 * * * cd /var/www/chatwoot && ./scripts/simple-backup.sh
+0 2 * * * cd /var/www/chatwoot && AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY ./scripts/simple-backup.sh
 ```
 
 ## 📊 监控备份状态
