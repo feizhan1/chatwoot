@@ -96,20 +96,9 @@ yarn-debug.log*
 .cursor
 CLAUDE.local.md
 
-# docker
-docker/nginx.conf
-docker/nginxPro.conf
-docker/letsencrypt
-
 # env
 .env
-.env.domain.example
+# 预备发布
+.env.stage
+# 生产环境
 .env.production
-.env.service.sjlpj.cn
-
-# docker-compose
-docker-compose.domain.yaml
-docker-compose.production.yaml
-
-
-
