@@ -97,3 +97,9 @@ yarn-debug.log*
 CLAUDE.local.md
 .env.production
 .env.*
+
+# docker
+docker/nginx.conf
+docker/nginxPro.conf
+
+
