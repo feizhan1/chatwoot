@@ -51,7 +51,7 @@ services:
     image: redis:alpine
     restart: always
     command: ["sh", "-c", "redis-server --requirepass 421124"]
-    env_file: .env.service.sjlpj.cn
+    env_file: .env.stage
     volumes:
       - redis_data:/data
     ports:
