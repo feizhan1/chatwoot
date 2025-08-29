@@ -64,8 +64,8 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./docker/nginx-pro.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./docker/letsencrypt-pro:/etc/letsencrypt:ro  # SSL 证书目录
+      - ./docker/nginx-production.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./docker/letsencrypt-production:/etc/letsencrypt:ro  # SSL 证书目录
       - nginx_logs:/var/log/nginx
     depends_on:
       - rails
