@@ -95,11 +95,20 @@ yarn-debug.log*
 .claude/settings.local.json
 .cursor
 CLAUDE.local.md
-.env.production
-.env.*
 
 # docker
 docker/nginx.conf
 docker/nginxPro.conf
+
+# env
+.env
+.env.domain.example
+.env.production
+.env.service.sjlpj.cn
+
+# docker-compose
+docker-compose.domain.yaml
+docker-compose.production.yaml
+
 
 
