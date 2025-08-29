@@ -3,7 +3,7 @@ version: '3'
 services:
   base: &base
     image: chatwoot/chatwoot:latest
-    env_file: .env.service.sjlpj.cn ## Domain environment variables
+    env_file: .env ## Domain environment variables
     volumes:
       - storage_data:/app/storage
 
@@ -44,12 +44,12 @@ services:
     environment:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=421124
+      - POSTGRES_PASSWORD=
 
   redis:
     image: redis:alpine
     restart: always
-    command: ["sh", "-c", "redis-server --requirepass 421124"]
+    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
     env_file: .env.service.sjlpj.cn
     volumes:
       - redis_data:/data
