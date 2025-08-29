@@ -95,3 +95,5 @@ yarn-debug.log*
 .claude/settings.local.json
 .cursor
 CLAUDE.local.md
+
+/docker/letsencrypt/
