@@ -64,13 +64,13 @@ log "备份文件创建完成: $backup_file"
 
 # 上传到 S3
 log "上传到 S3..."
-/usr/local/bin/aws s3 cp "$backup_file" "s3://$S3_BUCKET/chatwoot-backups/" --region "$AWS_REGION"
+/root/.local/bin/aws s3 cp "$backup_file" "s3://$S3_BUCKET/chatwoot-backups/" --region "$AWS_REGION"
 
 # 清理本地文件
 rm -f "$backup_file"
 
 # 验证 S3 上传是否成功
-if /usr/local/bin/aws s3 ls "s3://$S3_BUCKET/chatwoot-backups/$(basename "$backup_file")" --region "$AWS_REGION" >/dev/null 2>&1; then
+if /root/.local/bin/aws s3 ls "s3://$S3_BUCKET/chatwoot-backups/$(basename "$backup_file")" --region "$AWS_REGION" >/dev/null 2>&1; then
     log "✅ 备份成功! 文件已上传到 s3://$S3_BUCKET/chatwoot-backups/$(basename "$backup_file")"
     
     # 写入成功日志
@@ -83,14 +83,14 @@ fi
 
 # 清理超过30天的旧备份
 log "清理旧备份..."
-/usr/local/bin/aws s3 ls "s3://$S3_BUCKET/chatwoot-backups/" | \
+/root/.local/bin/aws s3 ls "s3://$S3_BUCKET/chatwoot-backups/" | \
 while read -r line; do
     file_date=$(echo "$line" | awk '{print $1}')
     file_name=$(echo "$line" | awk '{print $4}')
     
     if [[ -n "$file_date" && -n "$file_name" ]]; then
         if [[ "$file_date" < $(date -d '30 days ago' '+%Y-%m-%d') ]]; then
-            /usr/local/bin/aws s3 rm "s3://$S3_BUCKET/chatwoot-backups/$file_name" --region "$AWS_REGION"
+            /root/.local/bin/aws s3 rm "s3://$S3_BUCKET/chatwoot-backups/$file_name" --region "$AWS_REGION"
             log "删除旧备份: $file_name"
         fi
     fi
