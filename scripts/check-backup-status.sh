@@ -152,28 +152,26 @@ send_email() {
     } > "$temp_email"
     
     # 发送邮件 (使用 sendemail 工具)
-    if command -v sendemail >/dev/null 2>&1; then
-        if sendemail \
-            -f "$EMAIL_FROM" \
-            -t "$EMAIL_TO" \
-            -u "$subject" \
-            -m "$body" \
-            -s "$SMTP_SERVER:$SMTP_PORT" \
-            -xu "$EMAIL_FROM" \
-            -xp "$EMAIL_PASSWORD" \
-            -o tls=yes >/dev/null 2>&1; then
-            log "${GREEN}✅ 邮件发送成功${NC}"
-            rm -f "$temp_email" "$temp_config"
-            return 0
-        else
-            log "${RED}❌ sendemail 发送失败${NC}"
-        fi
+    if /usr/bin/sendemail \
+        -f "$EMAIL_FROM" \
+        -t "$EMAIL_TO" \
+        -u "$subject" \
+        -m "$body" \
+        -s "$SMTP_SERVER:$SMTP_PORT" \
+        -xu "$EMAIL_FROM" \
+        -xp "$EMAIL_PASSWORD" \
+        -o tls=yes >/dev/null 2>&1; then
+        log "${GREEN}✅ 邮件发送成功${NC}"
+        rm -f "$temp_email" "$temp_config"
+        return 0
+    else
+        log "${RED}❌ sendemail 发送失败${NC}"
     fi
     
     
     # 清理临时文件
     rm -f "$temp_email" "$temp_config"
-    log "${RED}❌ 邮件发送失败，请检查配置或安装 sendemail${NC}"
+    log "${RED}❌ 邮件发送失败，请检查 QQ 邮箱配置${NC}"
     return 1
 }
 
