@@ -93,7 +93,7 @@ sed -i 's/# ssl_certificate/ssl_certificate/g' docker/nginx.conf
 docker-compose -f docker-compose.domain.yaml restart
 
 # 检查服务状态
-docker-compose -f docker-compose.domain.yaml ps
+docker-compose -f docker-compose.stage.yaml ps
 ```
 
 ### 步骤 9: 设置自动续期
