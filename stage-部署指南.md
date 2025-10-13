@@ -34,7 +34,7 @@ dig service.sjlpj.cn
 cd /path/to/chatwoot
 
 # 停止当前的 IP 访问服务
-docker-compose -f docker-compose.domain.yaml down
+docker-compose -f docker-compose.stage.yaml down
 ```
 
 ### 步骤 3: 安装 SSL 证书工具
@@ -49,7 +49,7 @@ sudo apt install -y certbot python3-certbot-nginx
 
 ```bash
 # 使用专用的域名配置启动服务
-docker-compose -f docker-compose.domain.yaml up -d
+docker-compose -f docker-compose.stage.yaml up -d
 
 # 等待服务启动
 sleep 30
@@ -90,7 +90,7 @@ sed -i 's/# ssl_certificate/ssl_certificate/g' docker/nginx.conf
 
 ```bash
 # 重启所有服务以应用新配置
-docker-compose -f docker-compose.domain.yaml restart
+docker-compose -f docker-compose.stage.yaml restart
 
 # 检查服务状态
 docker-compose -f docker-compose.stage.yaml ps
@@ -100,7 +100,7 @@ docker-compose -f docker-compose.stage.yaml ps
 
 ```bash
 # 添加证书自动续期任务
-echo "0 12 * * * /usr/bin/certbot renew --quiet && docker-compose -f $(pwd)/docker-compose.domain.yaml restart nginx" | sudo crontab -
+echo "0 12 * * * /usr/bin/certbot renew --quiet && docker-compose -f $(pwd)/docker-compose.stage.yaml restart nginx" | sudo crontab -
 ```
 
 ## ✅ 验证部署
@@ -123,10 +123,10 @@ curl -I http://service.sjlpj.cn
 
 ```bash
 # 查看所有容器状态
-docker-compose -f docker-compose.domain.yaml ps
+docker-compose -f docker-compose.stage.yaml ps
 
 # 查看服务日志
-docker-compose -f docker-compose.domain.yaml logs -f nginx
+docker-compose -f docker-compose.stage.yaml logs -f nginx
 ```
 
 ## 🗂️ 配置文件说明
@@ -138,7 +138,7 @@ docker-compose -f docker-compose.domain.yaml logs -f nginx
    - `HELPCENTER_URL=https://service.sjlpj.cn`
    - `FORCE_SSL=true`
 
-2. **`docker-compose.domain.yaml`** - 包含 nginx 的容器编排
+2. **`docker-compose.stage.yaml`** - 包含 nginx 的容器编排
    - nginx 容器处理 SSL 和反向代理
    - rails 容器只监听本地端口
 
@@ -152,33 +152,33 @@ docker-compose -f docker-compose.domain.yaml logs -f nginx
 
 ```bash
 # 查看服务状态
-docker-compose -f docker-compose.domain.yaml ps
+docker-compose -f docker-compose.stage.yaml ps
 
 # 查看日志
-docker-compose -f docker-compose.domain.yaml logs -f
+docker-compose -f docker-compose.stage.yaml logs -f
 
 # 重启服务
-docker-compose -f docker-compose.domain.yaml restart
+docker-compose -f docker-compose.stage.yaml restart
 
 # 停止服务
-docker-compose -f docker-compose.domain.yaml down
+docker-compose -f docker-compose.stage.yaml down
 
 # 更新镜像并重启
-docker-compose -f docker-compose.domain.yaml pull
-docker-compose -f docker-compose.domain.yaml up -d
+docker-compose -f docker-compose.stage.yaml pull
+docker-compose -f docker-compose.stage.yaml up -d
 ```
 
 ### 特定服务操作
 
 ```bash
 # 重启 nginx
-docker-compose -f docker-compose.domain.yaml restart nginx
+docker-compose -f docker-compose.stage.yaml restart nginx
 
 # 查看 nginx 日志
-docker-compose -f docker-compose.domain.yaml logs -f nginx
+docker-compose -f docker-compose.stage.yaml logs -f nginx
 
 # 重启 chatwoot 应用
-docker-compose -f docker-compose.domain.yaml restart rails
+docker-compose -f docker-compose.stage.yaml restart rails
 ```
 
 ## 🔒 SSL 证书管理
@@ -200,7 +200,7 @@ sudo certbot renew --dry-run
 sudo certbot renew
 
 # 重启 nginx 应用新证书
-docker-compose -f docker-compose.domain.yaml restart nginx
+docker-compose -f docker-compose.stage.yaml restart nginx
 ```
 
 ## 🚨 故障排除
@@ -238,7 +238,7 @@ sudo certbot --nginx -d service.sjlpj.cn
 
 ```bash
 # 查看详细错误日志
-docker-compose -f docker-compose.domain.yaml logs
+docker-compose -f docker-compose.stage.yaml logs
 
 # 检查配置文件语法
 nginx -t -c docker/nginx.conf
@@ -253,7 +253,7 @@ cat .env.service.sjlpj.cn
 
 ```bash
 # 停止域名服务
-docker-compose -f docker-compose.domain.yaml down
+docker-compose -f docker-compose.stage.yaml down
 
 # 启动原始 IP 服务
 docker-compose -f docker-compose.production.yaml up -d
